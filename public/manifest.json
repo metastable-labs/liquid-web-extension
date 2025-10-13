@@ -1,0 +1,10 @@
+{
+  "manifest_version": 3,
+  "name": "Liquid Protocol",
+  "version": "1.0.0",
+  "description": "Buy Insurance on your prediction market bets.",
+  "action": {
+    "default_popup": "index.html"
+  },
+  "permissions": ["storage"]
+}
