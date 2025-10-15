@@ -61,11 +61,55 @@
   --font-aeonik: "Aeonik", sans-serif;
 }
 
-/* Prevent white flash on extension load */
 html,
 body,
 #root {
-  /* background-color: #020617; */
   margin: 0;
   padding: 0;
+}
+
+.otp-container {
+  display: flex;
+  align-items: center;
+}
+
+.otp-container input,
+.otp-box {
+  margin: 0 !important;
+}
+
+.otp-box {
+  width: 40px;
+  height: 48px;
+  border: 1px solid #e2e3f0;
+  border-radius: 8px;
+  text-align: center;
+  font-size: 16px;
+  outline: none;
+}
+
+.otp-sep {
+  width: 0;
+  flex: 0 0 auto;
+  margin: 0 5px;
+  position: relative;
+  display: inline-block;
+  line-height: 0;
+  pointer-events: none;
+}
+
+.otp-sep::before {
+  content: none;
+}
+
+.otp-sep:nth-of-type(3)::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 8px;
+  height: 2px;
+  background: #0f172a;
+  border-radius: 2px;
 }
