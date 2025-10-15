@@ -5,10 +5,10 @@ import Auth from "../components/auth/Auth";
 import Home from "../components/home/Home";
 import BuyInsurance from "../components/buy-insurance/BuyInsurance";
 
-type Page = "auth" | "home" | "buy";
+export type Page = "auth" | "home" | "buy";
 
 function App() {
-  const [currentPage, setCurrentPage] = useState<Page>("buy");
+  const [currentPage, setCurrentPage] = useState<Page>("auth");
 
   const pageVariants = {
     initial: { opacity: 0, x: 20 },
@@ -25,13 +25,13 @@ function App() {
   const renderPage = () => {
     switch (currentPage) {
       case "auth":
-        return <Auth onConnect={() => setCurrentPage("home")} />;
+        return <Auth setCurrentPage={setCurrentPage} />;
       case "home":
         return <Home onNavigateToBuy={() => setCurrentPage("buy")} />;
       case "buy":
         return <BuyInsurance onBack={() => setCurrentPage("home")} />;
       default:
-        return <Auth onConnect={() => setCurrentPage("home")} />;
+        return <Auth setCurrentPage={setCurrentPage} />;
     }
   };
 
