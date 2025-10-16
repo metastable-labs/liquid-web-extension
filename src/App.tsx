@@ -5,6 +5,7 @@ import Auth from "../components/auth/Auth";
 import Home from "../components/home";
 import BuyInsurance from "../components/buy-insurance/BuyInsurance";
 import classNames from "classnames";
+import Providers from "../providers";
 
 export type Page = "auth" | "home" | "buy";
 
@@ -53,7 +54,7 @@ function App() {
           transition={pageTransition}
           className="h-full"
         >
-          {renderPage()}
+          <Providers>{renderPage()}</Providers>
         </motion.div>
       </AnimatePresence>
     </div>

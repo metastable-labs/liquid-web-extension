@@ -29,6 +29,7 @@ export type HomeContextType = {
  */
 const HomeContext = createContext<HomeContextType | undefined>(undefined);
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useHome = (): HomeContextType => {
   const ctx = useContext(HomeContext);
   if (!ctx) {

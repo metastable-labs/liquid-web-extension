@@ -78,6 +78,7 @@ const INSURANCE_ITEMS = [
 ];
 
 export default function Home({
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   setCurrentPage: _setCurrentPage,
 }: {
   setCurrentPage: (page: Page) => void;

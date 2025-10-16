@@ -5,7 +5,7 @@ import ClickAnimation from "../../../ClickAnimation";
 import { formatCurrency } from "../../../../utils/functions";
 
 export default function BalanceCard() {
-  const [balance, _setBalance] = useState(5234.56);
+  const [balance] = useState(5234.56);
 
   const formatted = formatCurrency(balance, 2);
 
