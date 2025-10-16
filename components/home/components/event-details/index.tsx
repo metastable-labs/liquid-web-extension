@@ -9,7 +9,7 @@ import { formatCurrency, clamp } from "../../../../utils/functions";
 
 const EVENT_PLACEHOLDER = {
   variant: "position" as "position" | "event",
-  title: "Russia and Ukraine ceasefire in 2025?kshdjb",
+  title: "Russia and Ukraine ceasefire in 2025?",
   thumbnailUrl: "images/dummy_event.png",
   outcome: "Yes" as "Yes" | "No",
   totalValueUsd: 5200,
