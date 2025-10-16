@@ -1,5 +1,6 @@
 "use client";
 import { useState, useMemo } from "react";
+import { useApp } from "../../src/AppContext";
 import { AnimatePresence, motion } from "framer-motion";
 import OtpInput from "react-otp-input";
 
@@ -9,15 +10,11 @@ import Liquid from "../../public/icons/liquid";
 import GoogleIcon from "../../public/icons/google";
 import Wallet from "../../public/icons/wallet-icon";
 import MailIcon from "../../public/icons/mail";
-import type { Page } from "../../src/App";
 
 type Mode = "welcome" | "email" | "otp";
 
-export default function AuthWelcome({
-  setCurrentPage,
-}: {
-  setCurrentPage: (page: Page) => void;
-}) {
+export default function AuthWelcome() {
+  const { setCurrentPage } = useApp();
   const [mode, setMode] = useState<Mode>("welcome");
   const [email, setEmail] = useState("");
   const [otp, setOtp] = useState("");
