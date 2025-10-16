@@ -3,7 +3,7 @@ import ChevronRight from "../../../../public/icons/chevron-right";
 import ClickAnimation from "../../../ClickAnimation";
 
 export default function BalanceCard() {
-  const [balance, setBalance] = useState(5234.56);
+  const [balance, _setBalance] = useState(5234.56);
 
   const formatted = balance.toLocaleString(undefined, {
     minimumFractionDigits: 2,
