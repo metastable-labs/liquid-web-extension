@@ -1,5 +1,8 @@
-import { ActiveHome, InactiveHome } from "../../public/home";
-import { ActiveShieldLock, InactiveShieldLock } from "../../public/shield-lock";
+import { ActiveHome, InactiveHome } from "../../../public/icons/home";
+import {
+  ActiveShieldLock,
+  InactiveShieldLock,
+} from "../../../public/icons/shield-lock";
 
 export type BottomTab = "main" | "insurance";
 
