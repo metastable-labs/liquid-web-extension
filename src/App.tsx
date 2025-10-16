@@ -39,7 +39,7 @@ function App() {
   return (
     <div
       className={classNames(
-        "w-[390px] h-[610px] bg-white shadow-lg overflow-auto font-aeonik",
+        "w-[360px] h-[660px] bg-white shadow-lg overflow-auto font-aeonik",
         currentPage !== "home" && "py-5"
       )}
     >

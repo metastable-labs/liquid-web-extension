@@ -113,3 +113,8 @@ body,
   background: #0f172a;
   border-radius: 2px;
 }
+
+button:not([disabled]),
+[role="button"]:not([aria-disabled="true"]) {
+  cursor: pointer;
+}

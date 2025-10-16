@@ -7,12 +7,14 @@ import SupportedPositionCard, {
 
 const coveredEvents = [
   {
+    id: "north-korea-missile-15-sep",
     title: "North Korea missile test by September 15?",
     coverPercent: 80,
     thumbnailUrl: "images/dummy_event.png",
     polymarketUrl: "https://polymarket.com/…",
   },
   {
+    id: "ai-turing-2025",
     title: "Will AI pass the Turing test by 2025?",
     coverPercent: 65,
     thumbnailUrl: "images/dummy_event.png",

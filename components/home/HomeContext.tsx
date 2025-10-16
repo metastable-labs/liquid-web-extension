@@ -16,9 +16,17 @@ export type HomeContextType = {
   setEventRoute: (r: EventScreen) => void;
   insurance: "open" | "closed";
   setInsurance: (s: "open" | "closed") => void;
-  goToEvent: () => void;
+  // Consumers should fetch the full event from backend using this id.
+  activeEventId: string | null;
+  setActiveEventId: (id: string | null) => void;
 };
 
+/**
+ * HomeContext
+ * Provides home-specific UI state (tabs, sub-screens) and minimal selection
+ * identifiers (e.g. activeEventId). Keep the context lightweight: only
+ * store identifiers and small setters here — fetch full event data elsewhere.
+ */
 const HomeContext = createContext<HomeContextType | undefined>(undefined);
 
 export const useHome = (): HomeContextType => {

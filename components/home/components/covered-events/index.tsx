@@ -1,25 +1,37 @@
 import CoveredEventCard from "./CoveredEventCard";
 
-const events = [
+type CoveredEventItem = {
+  id: string;
+  title: string;
+  coverPercent: number;
+  thumbnailUrl: string;
+  polymarketUrl?: string;
+};
+
+const events: CoveredEventItem[] = [
   {
+    id: "north-korea-missile-15-sep-1",
     title: "North Korea missile test by September 15?",
     coverPercent: 80,
     thumbnailUrl: "images/dummy_event.png",
     polymarketUrl: "https://polymarket.com/…",
   },
   {
+    id: "north-korea-missile-15-sep-2",
     title: "North Korea missile test by September 15?",
     coverPercent: 50,
     thumbnailUrl: "images/dummy_event.png",
     polymarketUrl: "https://polymarket.com/…",
   },
   {
+    id: "north-korea-missile-15-sep-3",
     title: "North Korea missile test by September 15?",
     coverPercent: 50,
     thumbnailUrl: "images/dummy_event.png",
     polymarketUrl: "https://polymarket.com/…",
   },
   {
+    id: "north-korea-missile-15-sep-4",
     title: "North Korea missile test by September 15?",
     coverPercent: 50,
     thumbnailUrl: "images/dummy_event.png",
