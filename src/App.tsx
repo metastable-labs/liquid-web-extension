@@ -1,4 +1,4 @@
-import { useRef, useState, useMemo, useRef as useRefReact } from "react";
+import { useRef, useState, useMemo } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import classNames from "classnames";
 
@@ -21,7 +21,6 @@ function App() {
   const canGoBack = historyRef.current.length > 1;
 
   const navigate = (to: Page) => {
-    // prevent duplicate pushes (fixes weird double-animations)
     if (to === currentPage) return;
 
     const stack = historyRef.current;
@@ -56,8 +55,7 @@ function App() {
     [currentPage, canGoBack]
   );
 
-  // Smoother, more direct page motion (no tilt/scale)
-  const EASE = [0.22, 1, 0.36, 1] as const; // standard "ease-out" like iOS
+  const EASE = [0.22, 1, 0.36, 1] as const;
   const pageVariants = {
     initial: (dir: 1 | -1 | 0) =>
       reduce
@@ -98,7 +96,6 @@ function App() {
     }
   };
 
-  // For a fair back-swipe threshold on any width
   const containerRef = useRef<HTMLDivElement | null>(null);
 
   return (
@@ -114,7 +111,6 @@ function App() {
         <AnimatePresence mode="popLayout" initial={false}>
           <motion.div
             key={currentPage}
-            // Put each page in the SAME grid cell instead of absolute positioning
             className="row-start-1 col-start-1 h-full will-change-transform"
             style={{ gridArea: "1 / 1 / 2 / 2", touchAction: "pan-y" }}
             custom={direction}
