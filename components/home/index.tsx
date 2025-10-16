@@ -32,27 +32,22 @@
       * the small Block visual component is wrapped with React.memo since it's
         purely presentational and frequently used in lists.
 
-  Safety
-  - These changes are intentionally minimal: they only adjust how props and
-    handlers are created and passed. No visual or behavioral changes are
-    intended.
-
-  If you need a deeper optimization pass later, we can split large content
-  regions into separately memoized components and add unit tests for
-  interaction flows.
 */
 
 import { useMemo, useState, useCallback, memo } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
-import Screen from "./Screen";
-import Annotation from "../../public/annotation";
-import Logo from "../../public/logo";
+import Screen from "./components/Screen";
+import HomeContext from "./HomeContext";
+import Annotation from "../../public/icons/annotation";
+import Logo from "../../public/icons/logo";
 import type { Page } from "../../src/App";
-import BottomTabs from "./BottomTabs";
-import SegmentedTabs from "./SegmentedTabs";
-import type { BottomTab } from "./BottomTabs";
+import BottomTabs from "./components/BottomTabs";
+import SegmentedTabs from "./components/SegmentedTabs";
+import type { BottomTab } from "./components/BottomTabs";
 import ClickAnimation from "../ClickAnimation";
+import Overview from "./components/overview";
+import CoveredEvents from "./components/covered-events";
 
 type MainCoreScreen = "overview" | "covered";
 type EventScreen = "details" | "transactions";
@@ -64,9 +59,6 @@ const Block = memo(({ h = 120 }: { h?: number }) => (
   />
 ));
 
-// Static segmented tab item lists — declare once to avoid re-creating these
-// arrays on every render (prevents child components from re-rendering due to
-// prop identity changes).
 const MAIN_CORE_ITEMS = [
   { label: "Overview", value: "overview" as const },
   { label: "Covered events", value: "covered" as const },
@@ -107,6 +99,35 @@ export default function Home({
     []
   );
 
+  const ctxValue = useMemo(
+    () => ({
+      tab,
+      setTab,
+      mainGroup,
+      setMainGroup,
+      core,
+      setCore,
+      eventRoute,
+      setEventRoute,
+      insurance,
+      setInsurance,
+      goToEvent: handleGoToEvent,
+    }),
+    [
+      tab,
+      setTab,
+      mainGroup,
+      setMainGroup,
+      core,
+      setCore,
+      eventRoute,
+      setEventRoute,
+      insurance,
+      setInsurance,
+      handleGoToEvent,
+    ]
+  );
+
   // Derived screen id for AnimatePresence keys
   const mainScreenId = useMemo(() => {
     return mainGroup === "core" ? `core-${core}` : `event-${eventRoute}`;
@@ -116,158 +137,141 @@ export default function Home({
     tab === "main" ? `main-${mainScreenId}` : `insurance-${insurance}`;
 
   return (
-    <div className="flex h-full select-none flex-col overflow-hidden bg-[#F8FAFC]">
-      <div className="flex flex-col items-stretch gap-6 border-b border-b-slate-200 bg-white px-5 pb-3 pt-4">
-        <header className="flex items-center justify-between">
-          <Logo width={44.8} height={20} />
-          <div className="flex items-center gap-4">
-            <ClickAnimation>
-              <Annotation />
-            </ClickAnimation>
-            <ClickAnimation>
-              <img
-                src="avatar.png"
-                alt="User avatar"
-                className="h-8 w-8 rounded-full"
-              />
-            </ClickAnimation>
-          </div>
-        </header>
-
-        <div>
-          {tab === "main" && (
-            <div className="flex items-center justify-between">
-              {mainGroup === "core" ? (
-                <SegmentedTabs
-                  items={MAIN_CORE_ITEMS}
-                  value={core}
-                  onChange={setCore}
+    <HomeContext.Provider value={ctxValue}>
+      <div className="flex h-full select-none flex-col overflow-hidden bg-[#F8FAFC]">
+        <div className="flex flex-col items-stretch gap-6 border-b border-b-slate-200 bg-white px-5 pb-3 pt-4">
+          <header className="flex items-center justify-between">
+            <Logo width={44.8} height={20} />
+            <div className="flex items-center gap-4">
+              <ClickAnimation>
+                <Annotation />
+              </ClickAnimation>
+              <ClickAnimation>
+                <img
+                  src="images/avatar.png"
+                  alt="User avatar"
+                  className="h-8 w-8 rounded-full"
                 />
-              ) : (
-                <SegmentedTabs
-                  items={MAIN_EVENT_ITEMS}
-                  value={eventRoute}
-                  onChange={setEventRoute}
-                />
-              )}
-
-              <div className="flex items-center gap-2">
-                {mainGroup === "event" && (
-                  <button
-                    onClick={handleBackToCore}
-                    className="text-[11px] text-[#334155] font-medium"
-                  >
-                    Back
-                  </button>
-                )}
-              </div>
+              </ClickAnimation>
             </div>
-          )}
+          </header>
 
-          {tab === "insurance" && (
-            <SegmentedTabs
-              items={INSURANCE_ITEMS}
-              value={insurance}
-              onChange={setInsurance}
-            />
-          )}
-        </div>
-      </div>
+          <div>
+            {tab === "main" && (
+              <div className="flex items-center justify-between">
+                {mainGroup === "core" ? (
+                  <SegmentedTabs
+                    items={MAIN_CORE_ITEMS}
+                    value={core}
+                    onChange={setCore}
+                  />
+                ) : (
+                  <SegmentedTabs
+                    items={MAIN_EVENT_ITEMS}
+                    value={eventRoute}
+                    onChange={setEventRoute}
+                  />
+                )}
 
-      <main className="relative w-full flex-1 overflow-hidden">
-        <div className="absolute inset-0 overflow-y-auto px-4 pt-4 pb-[88px] overscroll-y-contain scroll-smooth">
-          <AnimatePresence mode="popLayout" initial={false}>
-            <motion.div
-              key={currentScreenKey}
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -8 }}
-              transition={{ duration: 0.2, ease: "easeOut" }}
-            >
-              {tab === "main" ? (
-                <Screen>
-                  {mainGroup === "core" && (
-                    <div className="space-y-3">
-                      {core === "overview" && (
-                        <div className="space-y-3">
-                          <Block h={84} />
-                          <Block h={160} />
-                          <Block h={220} />
-                          <button
-                            onClick={handleGoToEvent}
-                            className="mt-2 w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-center text-sm font-medium shadow-sm"
-                          >
-                            Go to Event →
-                          </button>
-                        </div>
-                      )}
-                      {core === "covered" && (
-                        <div className="space-y-3">
-                          <Block h={90} />
-                          <Block h={90} />
-                          <Block h={90} />
-                          <Block h={90} />
-                        </div>
-                      )}
-                    </div>
-                  )}
-
-                  {/* EVENT GROUP */}
+                <div className="flex items-center gap-2">
                   {mainGroup === "event" && (
-                    <div className="space-y-3">
-                      {eventRoute === "details" && (
-                        <div className="space-y-3">
-                          <Block h={140} />
-                          <Block h={260} />
-                          <div className="flex gap-2">
-                            <button
-                              onClick={handleSetEventRouteTransactions}
-                              className="rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm font-medium shadow-sm"
-                            >
-                              View Transactions
-                            </button>
-                            <button
-                              onClick={handleBackToCore}
-                              className="rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm font-medium shadow-sm"
-                            >
-                              Done
-                            </button>
-                          </div>
-                        </div>
-                      )}
-                      {eventRoute === "transactions" && (
-                        <div className="space-y-3">
-                          <Block h={80} />
-                          <Block h={80} />
-                          <Block h={80} />
-                        </div>
-                      )}
-                    </div>
+                    <button
+                      onClick={handleBackToCore}
+                      className="text-[11px] text-[#334155] font-medium"
+                    >
+                      Back
+                    </button>
                   )}
-                </Screen>
-              ) : (
-                <Screen>
-                  {insurance === "open" && (
-                    <div className="space-y-3">
-                      <Block h={120} />
-                      <Block h={120} />
-                    </div>
-                  )}
-                  {insurance === "closed" && (
-                    <div className="space-y-3">
-                      <Block h={96} />
-                      <Block h={96} />
-                      <Block h={96} />
-                    </div>
-                  )}
-                </Screen>
-              )}
-            </motion.div>
-          </AnimatePresence>
-        </div>
-      </main>
+                </div>
+              </div>
+            )}
 
-      <BottomTabs active={tab} onChange={handleTabChange} />
-    </div>
+            {tab === "insurance" && (
+              <SegmentedTabs
+                items={INSURANCE_ITEMS}
+                value={insurance}
+                onChange={setInsurance}
+              />
+            )}
+          </div>
+        </div>
+
+        <main className="relative w-full flex-1 overflow-hidden">
+          <div className="absolute inset-0 overflow-y-auto px-4 pt-4 pb-[88px] overscroll-y-contain scroll-smooth">
+            <AnimatePresence mode="popLayout" initial={false}>
+              <motion.div
+                key={currentScreenKey}
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -8 }}
+                transition={{ duration: 0.2, ease: "easeOut" }}
+              >
+                {tab === "main" ? (
+                  <Screen>
+                    {mainGroup === "core" && (
+                      <div className="space-y-3">
+                        {core === "overview" && <Overview />}
+                        {core === "covered" && <CoveredEvents />}
+                      </div>
+                    )}
+
+                    {/* EVENT GROUP */}
+                    {mainGroup === "event" && (
+                      <div className="space-y-3">
+                        {eventRoute === "details" && (
+                          <div className="space-y-3">
+                            <Block h={140} />
+                            <Block h={260} />
+                            <div className="flex gap-2">
+                              <button
+                                onClick={handleSetEventRouteTransactions}
+                                className="rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm font-medium shadow-sm"
+                              >
+                                View Transactions
+                              </button>
+                              <button
+                                onClick={handleBackToCore}
+                                className="rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm font-medium shadow-sm"
+                              >
+                                Done
+                              </button>
+                            </div>
+                          </div>
+                        )}
+                        {eventRoute === "transactions" && (
+                          <div className="space-y-3">
+                            <Block h={80} />
+                            <Block h={80} />
+                            <Block h={80} />
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </Screen>
+                ) : (
+                  <Screen>
+                    {insurance === "open" && (
+                      <div className="space-y-3">
+                        <Block h={120} />
+                        <Block h={120} />
+                      </div>
+                    )}
+                    {insurance === "closed" && (
+                      <div className="space-y-3">
+                        <Block h={96} />
+                        <Block h={96} />
+                        <Block h={96} />
+                      </div>
+                    )}
+                  </Screen>
+                )}
+              </motion.div>
+            </AnimatePresence>
+          </div>
+        </main>
+
+        <BottomTabs active={tab} onChange={handleTabChange} />
+      </div>
+    </HomeContext.Provider>
   );
 }

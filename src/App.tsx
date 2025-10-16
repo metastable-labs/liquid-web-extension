@@ -9,7 +9,7 @@ import classNames from "classnames";
 export type Page = "auth" | "home" | "buy";
 
 function App() {
-  const [currentPage, setCurrentPage] = useState<Page>("home");
+  const [currentPage, setCurrentPage] = useState<Page>("auth");
 
   const pageVariants = {
     initial: { opacity: 0, x: 20 },

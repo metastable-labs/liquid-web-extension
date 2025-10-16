@@ -4,11 +4,11 @@ import { AnimatePresence, motion } from "framer-motion";
 import OtpInput from "react-otp-input";
 
 import Button from "../Button";
-import Logo from "../../public/logo";
-import Liquid from "../../public/liquid";
-import GoogleIcon from "../../public/google";
-import Wallet from "../../public/wallet-icon";
-import MailIcon from "../../public/mail";
+import Logo from "../../public/icons/logo";
+import Liquid from "../../public/icons/liquid";
+import GoogleIcon from "../../public/icons/google";
+import Wallet from "../../public/icons/wallet-icon";
+import MailIcon from "../../public/icons/mail";
 import type { Page } from "../../src/App";
 
 type Mode = "welcome" | "email" | "otp";
