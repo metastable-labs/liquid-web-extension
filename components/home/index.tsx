@@ -48,6 +48,9 @@ import type { BottomTab } from "./components/BottomTabs";
 import ClickAnimation from "../ClickAnimation";
 import Overview from "./components/overview";
 import CoveredEvents from "./components/covered-events";
+import EventDetails from "./components/event-details";
+import OpenInsurance from "./components/insurance/OpenInsurance";
+import ClosedInsurance from "./components/insurance/ClosedInsurance";
 
 type MainCoreScreen = "overview" | "covered";
 type EventScreen = "details" | "transactions";
@@ -88,16 +91,10 @@ export default function Home({
   // INSURANCE tab state
   const [insurance, setInsurance] = useState<"open" | "closed">("open");
 
+  const [activeEventId, setActiveEventId] = useState<string | null>(null);
+
   const handleTabChange = useCallback((t: BottomTab) => setTab(t), []);
   const handleBackToCore = useCallback(() => setMainGroup("core"), []);
-  const handleGoToEvent = useCallback(() => {
-    setMainGroup("event");
-    setEventRoute("details");
-  }, []);
-  const handleSetEventRouteTransactions = useCallback(
-    () => setEventRoute("transactions"),
-    []
-  );
 
   const ctxValue = useMemo(
     () => ({
@@ -111,7 +108,8 @@ export default function Home({
       setEventRoute,
       insurance,
       setInsurance,
-      goToEvent: handleGoToEvent,
+      activeEventId,
+      setActiveEventId,
     }),
     [
       tab,
@@ -124,7 +122,8 @@ export default function Home({
       setEventRoute,
       insurance,
       setInsurance,
-      handleGoToEvent,
+      activeEventId,
+      setActiveEventId,
     ]
   );
 
@@ -215,29 +214,9 @@ export default function Home({
                       </div>
                     )}
 
-                    {/* EVENT GROUP */}
                     {mainGroup === "event" && (
                       <div className="space-y-3">
-                        {eventRoute === "details" && (
-                          <div className="space-y-3">
-                            <Block h={140} />
-                            <Block h={260} />
-                            <div className="flex gap-2">
-                              <button
-                                onClick={handleSetEventRouteTransactions}
-                                className="rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm font-medium shadow-sm"
-                              >
-                                View Transactions
-                              </button>
-                              <button
-                                onClick={handleBackToCore}
-                                className="rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm font-medium shadow-sm"
-                              >
-                                Done
-                              </button>
-                            </div>
-                          </div>
-                        )}
+                        {eventRoute === "details" && <EventDetails />}
                         {eventRoute === "transactions" && (
                           <div className="space-y-3">
                             <Block h={80} />
@@ -250,19 +229,8 @@ export default function Home({
                   </Screen>
                 ) : (
                   <Screen>
-                    {insurance === "open" && (
-                      <div className="space-y-3">
-                        <Block h={120} />
-                        <Block h={120} />
-                      </div>
-                    )}
-                    {insurance === "closed" && (
-                      <div className="space-y-3">
-                        <Block h={96} />
-                        <Block h={96} />
-                        <Block h={96} />
-                      </div>
-                    )}
+                    {insurance === "open" && <OpenInsurance />}
+                    {insurance === "closed" && <ClosedInsurance />}
                   </Screen>
                 )}
               </motion.div>

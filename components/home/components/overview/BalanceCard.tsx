@@ -1,14 +1,13 @@
 import { useState } from "react";
+
 import ChevronRight from "../../../../public/icons/chevron-right";
 import ClickAnimation from "../../../ClickAnimation";
+import { formatCurrency } from "../../../../utils/functions";
 
 export default function BalanceCard() {
   const [balance, _setBalance] = useState(5234.56);
 
-  const formatted = balance.toLocaleString(undefined, {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  });
+  const formatted = formatCurrency(balance, 2);
 
   const onDeposit = () => {};
   const onWithdraw = () => {};
@@ -19,7 +18,7 @@ export default function BalanceCard() {
         <span className="text-xs text-[#64748B]">Balance</span>
         <div className="flex items-center justify-center gap-1">
           <span className="text-[28px] leading-[31.36px] font-bold text-[#020617] font-quanta">
-            ${formatted}
+            {formatted}
           </span>
           <ChevronRight />
         </div>

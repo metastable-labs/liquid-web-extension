@@ -1,8 +1,11 @@
+import { useCallback } from "react";
+
+import { useHome } from "../../HomeContext";
 import ExternalLink from "../../../../public/icons/ExternalLink";
 import ClickAnimation from "../../../ClickAnimation";
-import { useHome } from "../../HomeContext";
 
 export type CoveredEvent = {
+  id: string;
   title: string;
   coverPercent: number;
   thumbnailUrl: string;
@@ -10,12 +13,19 @@ export type CoveredEvent = {
 };
 
 export default function CoveredEventCard({
+  id,
   title,
   coverPercent,
   thumbnailUrl,
   polymarketUrl,
 }: CoveredEvent) {
-  const { goToEvent } = useHome();
+  const { setMainGroup, setEventRoute, setActiveEventId } = useHome();
+
+  const goToEvent = useCallback(() => {
+    setActiveEventId(id);
+    setMainGroup("event");
+    setEventRoute("details");
+  }, [id, setActiveEventId, setMainGroup, setEventRoute]);
   return (
     <div
       onClick={goToEvent}
