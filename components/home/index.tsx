@@ -41,7 +41,6 @@ import Screen from "./components/Screen";
 import HomeContext from "./HomeContext";
 import Annotation from "../../public/icons/annotation";
 import Logo from "../../public/icons/logo";
-import type { Page } from "../../src/App";
 import BottomTabs from "./components/BottomTabs";
 import SegmentedTabs from "./components/SegmentedTabs";
 import type { BottomTab } from "./components/BottomTabs";
@@ -78,11 +77,7 @@ const INSURANCE_ITEMS = [
   { label: "Closed insurance", value: "closed" as const },
 ];
 
-export default function Home({
-  setCurrentPage: _setCurrentPage,
-}: {
-  setCurrentPage: (page: Page) => void;
-}) {
+export default function Home() {
   const [tab, setTab] = useState<BottomTab>("main");
   // MAIN tab state
   const [mainGroup, setMainGroup] = useState<"core" | "event">("core");
