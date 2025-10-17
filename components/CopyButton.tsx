@@ -2,7 +2,7 @@ import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
 import ClickAnimation from "./ClickAnimation";
-import Copy from "../public/icons/copy";
+import Copy from "../src/assets/copy";
 
 function CopyButton({ value }: { value: string }) {
   const [copied, setCopied] = useState(false);

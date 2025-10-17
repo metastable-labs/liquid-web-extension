@@ -1,12 +1,11 @@
 import { createContext, useContext } from "react";
+
 import type { Page } from "./App";
 
 export type AppContextType = {
   currentPage: Page;
   setCurrentPage: (p: Page) => void;
-  // go back in history (if available)
   goBack: () => void;
-  // whether navigation stack allows going back
   canGoBack: boolean;
 };
 

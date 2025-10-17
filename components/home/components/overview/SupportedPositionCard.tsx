@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import ChevronRight from "../../../../public/icons/chevron-right";
+import ChevronRight from "../../../../src/assets/chevron-right";
 
 type BaseProps = {
   title: string;

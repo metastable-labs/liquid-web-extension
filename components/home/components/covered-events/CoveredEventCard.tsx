@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 
 import { useHome } from "../../HomeContext";
-import ExternalLink from "../../../../public/icons/ExternalLink";
+import ExternalLink from "../../../../src/assets/ExternalLink";
 import ClickAnimation from "../../../ClickAnimation";
 
 export type CoveredEvent = {

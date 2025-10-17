@@ -1,4 +1,4 @@
-import { useRef, useState, useMemo } from "react";
+import { useRef, useState, useMemo, useEffect } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import classNames from "classnames";
 
@@ -7,12 +7,32 @@ import Auth from "../components/auth/Auth";
 import Home from "../components/home";
 import BuyInsurance from "../components/buy-insurance/BuyInsurance";
 import WithdrawFunds from "../components/withdraw";
+import Onboarding from "../components/onboarding";
 import AppContext from "./AppContext";
 
-export type Page = "auth" | "home" | "buy" | "withdraw";
+import { useExtensionStorage } from "../hooks/useExtensionStorage";
+
+export type Page = "auth" | "home" | "buy" | "withdraw" | "onboarding";
+
+const ONBOARDED_KEY = "liquid:onboarded.v1";
 
 function App() {
-  const [currentPage, setCurrentPage] = useState<Page>("home");
+  const [currentPage, setCurrentPage] = useState<Page>("onboarding");
+
+  const { value: hasOnboarded = false, loading } = useExtensionStorage<boolean>(
+    ONBOARDED_KEY,
+    false
+  );
+
+  const [booted, setBooted] = useState(false);
+
+  useEffect(() => {
+    if (loading || booted) return;
+    const target: Page = hasOnboarded ? "auth" : "onboarding";
+    setCurrentPage(target);
+    historyRef.current = [target];
+    setBooted(true);
+  }, [loading, hasOnboarded, booted]);
 
   const historyRef = useRef<Page[]>([currentPage]);
   const [direction, setDirection] = useState<1 | -1 | 0>(0);
@@ -61,21 +81,12 @@ function App() {
     initial: (dir: 1 | -1 | 0) =>
       reduce
         ? { opacity: 0 }
-        : {
-            opacity: 0,
-            x: dir === 0 ? 0 : dir > 0 ? 24 : -24,
-          },
-    animate: {
-      opacity: 1,
-      x: 0,
-    },
+        : { opacity: 0, x: dir === 0 ? 0 : dir > 0 ? 24 : -24 },
+    animate: { opacity: 1, x: 0 },
     exit: (dir: 1 | -1 | 0) =>
       reduce
         ? { opacity: 0 }
-        : {
-            opacity: 0,
-            x: dir === 0 ? 0 : dir > 0 ? -16 : 16,
-          },
+        : { opacity: 0, x: dir === 0 ? 0 : dir > 0 ? -16 : 16 },
   } as const;
 
   const pageTransition = reduce
@@ -84,6 +95,8 @@ function App() {
 
   const renderPage = () => {
     switch (currentPage) {
+      case "onboarding":
+        return <Onboarding />;
       case "auth":
         return <Auth />;
       case "home":
@@ -99,14 +112,29 @@ function App() {
 
   const containerRef = useRef<HTMLDivElement | null>(null);
 
+  const pagesWithPadding: Page[] = ["auth", "buy", "withdraw"];
+  const paddingYClass =
+    currentPage === "onboarding"
+      ? "py-0"
+      : pagesWithPadding.includes(currentPage)
+      ? "py-5"
+      : undefined;
+  const bottomPaddingClass = currentPage === "withdraw" ? "pb-0" : undefined;
+
+  if (!booted) {
+    return (
+      <div className="w-[360px] h-[600px] bg-white shadow-lg rounded-2xl" />
+    );
+  }
+
   return (
     <AppContext.Provider value={contextValue}>
       <div
         ref={containerRef}
         className={classNames(
           "grid grid-rows-1 grid-cols-1 w-[360px] h-[600px] bg-white shadow-lg overflow-hidden font-aeonik rounded-2xl",
-          currentPage !== "home" && "py-5",
-          currentPage === "withdraw" && "pb-0"
+          paddingYClass,
+          bottomPaddingClass
         )}
         style={{ contain: "paint", backfaceVisibility: "hidden" }}
       >
