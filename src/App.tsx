@@ -12,7 +12,7 @@ import AppContext from "./AppContext";
 export type Page = "auth" | "home" | "buy" | "withdraw";
 
 function App() {
-  const [currentPage, setCurrentPage] = useState<Page>("auth");
+  const [currentPage, setCurrentPage] = useState<Page>("home");
 
   const historyRef = useRef<Page[]>([currentPage]);
   const [direction, setDirection] = useState<1 | -1 | 0>(0);
@@ -52,6 +52,7 @@ function App() {
       goBack,
       canGoBack,
     }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [currentPage, canGoBack]
   );
 
@@ -103,8 +104,9 @@ function App() {
       <div
         ref={containerRef}
         className={classNames(
-          "grid grid-rows-1 grid-cols-1 w-[360px] h-[660px] bg-white shadow-lg overflow-hidden font-aeonik rounded-2xl",
-          currentPage !== "home" && "py-5"
+          "grid grid-rows-1 grid-cols-1 w-[360px] h-[600px] bg-white shadow-lg overflow-hidden font-aeonik rounded-2xl",
+          currentPage !== "home" && "py-5",
+          currentPage === "withdraw" && "pb-0"
         )}
         style={{ contain: "paint", backfaceVisibility: "hidden" }}
       >
