@@ -39,8 +39,8 @@ import { AnimatePresence, motion } from "framer-motion";
 
 import Screen from "./components/Screen";
 import HomeContext from "./HomeContext";
-import Annotation from "../../public/icons/annotation";
-import Logo from "../../public/icons/logo";
+import Annotation from "../../src/assets/annotation";
+import Logo from "../../src/assets/logo";
 import BottomTabs from "./components/BottomTabs";
 import SegmentedTabs from "./components/SegmentedTabs";
 import type { BottomTab } from "./components/BottomTabs";
@@ -50,7 +50,7 @@ import CoveredEvents from "./components/covered-events";
 import EventDetails from "./components/event-details";
 import OpenInsurance from "./components/insurance/OpenInsurance";
 import ClosedInsurance from "./components/insurance/ClosedInsurance";
-import ChevronRight from "../../public/icons/chevron-right";
+import ChevronRight from "../../src/assets/chevron-right";
 
 type MainCoreScreen = "overview" | "covered";
 type EventScreen = "details" | "transactions";

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useApp } from "../../../../src/AppContext";
 
-import ChevronRight from "../../../../public/icons/chevron-right";
+import ChevronRight from "../../../../src/assets/chevron-right";
 import ClickAnimation from "../../../ClickAnimation";
 import { formatCurrency } from "../../../../utils/functions";
 

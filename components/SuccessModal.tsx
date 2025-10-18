@@ -1,7 +1,7 @@
 import React from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
-import Success from "../public/icons/success";
+import Success from "../src/assets/success";
 import ClickAnimation from "./ClickAnimation";
 
 type Props = {

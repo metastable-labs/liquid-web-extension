@@ -5,16 +5,18 @@ import { AnimatePresence, motion } from "framer-motion";
 import OtpInput from "react-otp-input";
 
 import Button from "../Button";
-import Logo from "../../public/icons/logo";
-import Liquid from "../../public/icons/liquid";
-import GoogleIcon from "../../public/icons/google";
-import Wallet from "../../public/icons/wallet-icon";
-import MailIcon from "../../public/icons/mail";
+import Logo from "../../src/assets/logo";
+import Liquid from "../../src/assets/liquid";
+import GoogleIcon from "../../src/assets/google";
+import Wallet from "../../src/assets/wallet-icon";
+import MailIcon from "../../src/assets/mail";
+import Info from "../../src/assets/info";
+import ClickAnimation from "../ClickAnimation";
 
 type Mode = "welcome" | "email" | "otp";
 
 export default function AuthWelcome() {
-  const { setCurrentPage } = useApp();
+  const { setCurrentPage, goBack, canGoBack } = useApp();
   const [mode, setMode] = useState<Mode>("welcome");
   const [email, setEmail] = useState("");
   const [otp, setOtp] = useState("");
@@ -48,6 +50,12 @@ export default function AuthWelcome() {
       setVerifying(false);
       setCurrentPage("home");
     }
+  };
+
+  const handleHowItWorks = () => {
+    if (canGoBack) return goBack();
+
+    setCurrentPage("onboarding");
   };
 
   return (
@@ -121,6 +129,19 @@ export default function AuthWelcome() {
                 >
                   Continue with Email
                 </Button>
+
+                <div className="mt-1 flex items-center justify-center">
+                  <ClickAnimation
+                    className="flex items-center justify-center gap-1"
+                    onClick={handleHowItWorks}
+                  >
+                    <Info />
+
+                    <span className="text-[12px] leading-[18px] tracking-[0.12px] text-[#64748B]">
+                      How it works
+                    </span>
+                  </ClickAnimation>
+                </div>
               </div>
             </motion.div>
           ) : (

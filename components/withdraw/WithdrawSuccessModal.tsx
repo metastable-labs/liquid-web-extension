@@ -3,8 +3,8 @@ import * as React from "react";
 import CopyButton from "../CopyButton";
 import SuccessModal from "../SuccessModal";
 import ClickAnimation from "../ClickAnimation";
-import Base from "../../public/icons/base";
-import ExternalLink from "../../public/icons/ExternalLink";
+import Base from "../../src/assets/base";
+import ExternalLink from "../../src/assets/ExternalLink";
 
 type Data = {
   formattedAmount: string;
