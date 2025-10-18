@@ -1,11 +1,9 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
+import { useApp } from "../../src/AppContext";
 
-interface BuyInsuranceProps {
-  onBack: () => void;
-}
-
-const BuyInsurance: React.FC<BuyInsuranceProps> = ({ onBack }) => {
+const BuyInsurance: React.FC = () => {
+  const { setCurrentPage, goBack } = useApp();
   const [selectedBet, setSelectedBet] = useState("");
   const [insuranceAmount, setInsuranceAmount] = useState("");
   const [coverage, setCoverage] = useState("50");
@@ -13,7 +11,8 @@ const BuyInsurance: React.FC<BuyInsuranceProps> = ({ onBack }) => {
   const handlePurchase = () => {
     // Mock purchase logic
     alert("Insurance purchased successfully!");
-    onBack();
+    // After purchase return to home
+    setCurrentPage("home");
   };
 
   const containerVariants = {
@@ -48,7 +47,7 @@ const BuyInsurance: React.FC<BuyInsuranceProps> = ({ onBack }) => {
         transition={{ duration: 0.4 }}
       >
         <motion.button
-          onClick={onBack}
+          onClick={() => goBack()}
           className="text-gray-600 hover:text-gray-800 transition-colors"
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.95 }}

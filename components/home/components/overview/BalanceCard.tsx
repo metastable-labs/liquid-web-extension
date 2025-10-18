@@ -1,16 +1,18 @@
 import { useState } from "react";
+import { useApp } from "../../../../src/AppContext";
 
-import ChevronRight from "../../../../public/icons/chevron-right";
+import ChevronRight from "../../../../src/assets/chevron-right";
 import ClickAnimation from "../../../ClickAnimation";
 import { formatCurrency } from "../../../../utils/functions";
 
 export default function BalanceCard() {
+  const { setCurrentPage } = useApp();
   const [balance] = useState(5234.56);
 
   const formatted = formatCurrency(balance, 2);
 
   const onDeposit = () => {};
-  const onWithdraw = () => {};
+  const onWithdraw = () => setCurrentPage("withdraw");
 
   return (
     <div className="self-stretch flex flex-col items-stretch gap-4 rounded-2xl border border-[#EAEEF4] bg-white px-10 py-7">

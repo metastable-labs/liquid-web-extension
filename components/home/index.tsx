@@ -34,14 +34,13 @@
 
 */
 
-import { useMemo, useState, useCallback, memo } from "react";
+import { useMemo, useState, useCallback, memo, useRef, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
 import Screen from "./components/Screen";
 import HomeContext from "./HomeContext";
-import Annotation from "../../public/icons/annotation";
-import Logo from "../../public/icons/logo";
-import type { Page } from "../../src/App";
+import Annotation from "../../src/assets/annotation";
+import Logo from "../../src/assets/logo";
 import BottomTabs from "./components/BottomTabs";
 import SegmentedTabs from "./components/SegmentedTabs";
 import type { BottomTab } from "./components/BottomTabs";
@@ -51,6 +50,7 @@ import CoveredEvents from "./components/covered-events";
 import EventDetails from "./components/event-details";
 import OpenInsurance from "./components/insurance/OpenInsurance";
 import ClosedInsurance from "./components/insurance/ClosedInsurance";
+import ChevronRight from "../../src/assets/chevron-right";
 
 type MainCoreScreen = "overview" | "covered";
 type EventScreen = "details" | "transactions";
@@ -77,12 +77,7 @@ const INSURANCE_ITEMS = [
   { label: "Closed insurance", value: "closed" as const },
 ];
 
-export default function Home({
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  setCurrentPage: _setCurrentPage,
-}: {
-  setCurrentPage: (page: Page) => void;
-}) {
+export default function Home() {
   const [tab, setTab] = useState<BottomTab>("main");
   // MAIN tab state
   const [mainGroup, setMainGroup] = useState<"core" | "event">("core");
@@ -136,6 +131,24 @@ export default function Home({
   const currentScreenKey =
     tab === "main" ? `main-${mainScreenId}` : `insurance-${insurance}`;
 
+  const scrollRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+
+    let raf = 0;
+    raf = requestAnimationFrame(() => {
+      try {
+        el.scrollTo({ top: 0, left: 0, behavior: "auto" });
+      } catch (e) {
+        el.scrollTop = 0;
+      }
+    });
+
+    return () => cancelAnimationFrame(raf);
+  }, [currentScreenKey]);
+
   return (
     <HomeContext.Provider value={ctxValue}>
       <div className="flex h-full select-none flex-col overflow-hidden bg-[#F8FAFC]">
@@ -158,7 +171,7 @@ export default function Home({
 
           <div>
             {tab === "main" && (
-              <div className="flex items-center justify-between">
+              <>
                 {mainGroup === "core" ? (
                   <SegmentedTabs
                     items={MAIN_CORE_ITEMS}
@@ -172,18 +185,7 @@ export default function Home({
                     onChange={setEventRoute}
                   />
                 )}
-
-                <div className="flex items-center gap-2">
-                  {mainGroup === "event" && (
-                    <button
-                      onClick={handleBackToCore}
-                      className="text-[11px] text-[#334155] font-medium"
-                    >
-                      Back
-                    </button>
-                  )}
-                </div>
-              </div>
+              </>
             )}
 
             {tab === "insurance" && (
@@ -197,7 +199,19 @@ export default function Home({
         </div>
 
         <main className="relative w-full flex-1 overflow-hidden">
-          <div className="absolute inset-0 overflow-y-auto px-4 pt-4 pb-[88px] overscroll-y-contain scroll-smooth">
+          <div
+            ref={scrollRef}
+            className="absolute inset-0 overflow-y-auto px-4 pt-4 pb-[88px] overscroll-y-contain scroll-smooth"
+          >
+            {tab === "main" && mainGroup === "event" && (
+              <ClickAnimation
+                onClick={handleBackToCore}
+                className="border border-gray-300 rounded-full p-1 rotate-180 mb-4"
+              >
+                <ChevronRight />
+              </ClickAnimation>
+            )}
+
             <AnimatePresence mode="popLayout" initial={false}>
               <motion.div
                 key={currentScreenKey}
