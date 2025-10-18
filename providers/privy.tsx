@@ -26,6 +26,7 @@ export default function PrivyProvider({
             createOnLogin: "users-without-wallets",
           },
         },
+        loginMethods: ["wallet", "email"],
       }}
     >
       {children}

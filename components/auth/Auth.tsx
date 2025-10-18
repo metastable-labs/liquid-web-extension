@@ -1,5 +1,5 @@
 "use client";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { useApp } from "../../src/AppContext";
 import { AnimatePresence, motion } from "framer-motion";
 import OtpInput from "react-otp-input";
@@ -8,20 +8,20 @@ import Button from "../Button";
 import Logo from "../../src/assets/logo";
 import Liquid from "../../src/assets/liquid";
 import GoogleIcon from "../../src/assets/google";
-import Wallet from "../../src/assets/wallet-icon";
 import MailIcon from "../../src/assets/mail";
 import Info from "../../src/assets/info";
 import ClickAnimation from "../ClickAnimation";
+import { useLoginWithEmail, usePrivy } from "@privy-io/react-auth";
 
 type Mode = "welcome" | "email" | "otp";
 
 export default function AuthWelcome() {
+  const { authenticated, logout, ready } = usePrivy();
+  const { sendCode, loginWithCode, state: emailState } = useLoginWithEmail();
   const { setCurrentPage, goBack, canGoBack } = useApp();
   const [mode, setMode] = useState<Mode>("welcome");
   const [email, setEmail] = useState("");
   const [otp, setOtp] = useState("");
-  const [submitting, setSubmitting] = useState(false);
-  const [verifying, setVerifying] = useState(false);
 
   const emailValid = useMemo(
     () => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim()),
@@ -29,26 +29,34 @@ export default function AuthWelcome() {
   );
 
   const otpComplete = otp.length === 6;
+  const sendingCode = emailState.status === "sending-code";
+  const submittingCode = emailState.status === "submitting-code";
 
   const canContinue =
-    (mode === "email" && emailValid && !submitting) ||
-    (mode === "otp" && otpComplete && !verifying);
+    (mode === "email" && emailValid && !sendingCode) ||
+    (mode === "otp" && otpComplete && !submittingCode);
 
   const goEmail = () => setMode("email");
 
   const handleContinue = async () => {
-    if (mode === "email") {
-      setSubmitting(true);
-      await new Promise((r) => setTimeout(r, 800));
-      setSubmitting(false);
-      setMode("otp");
-      return;
-    }
-    if (mode === "otp") {
-      setVerifying(true);
-      await new Promise((r) => setTimeout(r, 800));
-      setVerifying(false);
-      setCurrentPage("home");
+    try {
+      if (mode === "email") {
+        if (authenticated) {
+          await logout();
+        }
+        await sendCode({
+          email,
+        });
+
+        return setMode("otp");
+      }
+      if (mode === "otp") {
+        await loginWithCode({
+          code: otp,
+        });
+      }
+    } catch (error) {
+      console.error(error);
     }
   };
 
@@ -57,6 +65,13 @@ export default function AuthWelcome() {
 
     setCurrentPage("onboarding");
   };
+
+  useEffect(() => {
+    if (authenticated && ready) {
+      setCurrentPage("home");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [authenticated, ready]);
 
   return (
     <div className="relative h-full pt-7 px-4 overflow-hidden">
@@ -114,13 +129,14 @@ export default function AuthWelcome() {
                   Continue with Google
                 </Button>
 
-                <Button
+                {/* <Button
                   variant="secondary"
                   leading={<Wallet />}
                   aria-label="Continue with wallet"
+                  onClick={loginWithWallet}
                 >
                   Continue with wallet
-                </Button>
+                </Button> */}
 
                 <Button
                   variant="primary"
@@ -264,8 +280,8 @@ export default function AuthWelcome() {
               <Button
                 variant="primary"
                 disabled={!canContinue}
-                loading={submitting || verifying}
-                aria-busy={submitting || verifying}
+                loading={sendingCode || submittingCode}
+                aria-busy={sendingCode || submittingCode}
                 onClick={handleContinue}
               >
                 Continue

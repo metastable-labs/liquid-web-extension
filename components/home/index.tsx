@@ -141,6 +141,7 @@ export default function Home() {
     raf = requestAnimationFrame(() => {
       try {
         el.scrollTo({ top: 0, left: 0, behavior: "auto" });
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
       } catch (e) {
         el.scrollTop = 0;
       }
