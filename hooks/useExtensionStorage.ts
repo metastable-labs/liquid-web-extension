@@ -8,7 +8,7 @@ function hasChromeStorage() {
   return Boolean((globalThis as any)?.chrome?.storage?.local);
 }
 
-async function storageGet<T>(key: string): Promise<T | undefined> {
+export async function storageGet<T>(key: string): Promise<T | undefined> {
   if (hasChromeStorage()) {
     const chromeLocal = (globalThis as any).chrome.storage.local;
     return new Promise<T | undefined>((resolve) => {

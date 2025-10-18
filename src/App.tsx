@@ -12,10 +12,9 @@ import Onboarding from "../components/onboarding";
 import AppContext from "./AppContext";
 
 import { useExtensionStorage } from "../hooks/useExtensionStorage";
+import { ONBOARDED_KEY } from "../constants";
 
 export type Page = "auth" | "home" | "buy" | "withdraw" | "onboarding";
-
-const ONBOARDED_KEY = "liquid:onboarded.v1";
 
 function App() {
   const [currentPage, setCurrentPage] = useState<Page>("onboarding");

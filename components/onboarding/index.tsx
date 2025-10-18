@@ -6,6 +6,7 @@ import Close from "../../src/assets/close";
 import ClickAnimation from "../ClickAnimation";
 import Button from "../Button";
 import { useExtensionStorage } from "../../hooks/useExtensionStorage";
+import { ONBOARDED_KEY } from "../../constants";
 
 const STEPS = [
   {
@@ -26,7 +27,6 @@ const STEPS = [
 ] as const;
 
 const EASE = [0.22, 1, 0.36, 1] as const;
-const ONBOARDED_KEY = "liquid:onboarded.v1";
 
 export default function Onboarding() {
   const reduce = useReducedMotion();
