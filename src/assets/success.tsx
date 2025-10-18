@@ -1,79 +1,30 @@
-const Success = () => (
+const DoubleCheckIcon = () => (
   <svg
-    width="54"
-    height="54"
-    viewBox="0 0 134 134"
-    fill="none"
     xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
   >
-    <g filter="url(#filter0_d_3842_2336)">
-      <rect x="40" y="32" width="54" height="54" rx="27" fill="#47CD89" />
-      <rect
-        x="38"
-        y="30"
-        width="58"
-        height="58"
-        rx="29"
-        stroke="white"
-        stroke-width="4"
-      />
-      <path
-        fill-rule="evenodd"
-        clip-rule="evenodd"
-        d="M75.7072 54.4866C75.3162 54.0956 74.6842 54.0956 74.2932 54.4866L67.1952 61.5846L63.9992 58.3896C63.6083 57.9996 62.9762 57.9996 62.5852 58.3896C62.1943 58.7806 62.1943 59.4136 62.5852 59.8036L63.4402 60.6586L62.5122 61.5866L59.7072 58.7816C59.3162 58.3906 58.6842 58.3906 58.2932 58.7816C57.9022 59.1726 57.9022 59.8046 58.2932 60.1956L61.4713 63.3736C61.7493 63.6536 62.1192 63.8076 62.5122 63.8076C62.9062 63.8076 63.2752 63.6536 63.5502 63.3766L64.8542 62.0726L66.1572 63.3756C66.4352 63.6526 66.8042 63.8046 67.1952 63.8046C67.5882 63.8046 67.9572 63.6516 68.2332 63.3746L75.7072 55.9006C76.0982 55.5096 76.0982 54.8776 75.7072 54.4866Z"
-        fill="white"
-      />
-      <path
-        fill-rule="evenodd"
-        clip-rule="evenodd"
-        d="M67.1956 59.3178C67.4516 59.3178 67.7076 59.2198 67.9026 59.0248L71.0246 55.9028C71.4156 55.5118 71.4156 54.8798 71.0246 54.4888C70.6336 54.0978 70.0016 54.0978 69.6106 54.4888L66.4886 57.6108C66.0976 58.0018 66.0976 58.6338 66.4886 59.0248C66.6836 59.2198 66.9396 59.3178 67.1956 59.3178Z"
-        fill="white"
-      />
-    </g>
-    <defs>
-      <filter
-        id="filter0_d_3842_2336"
-        x="0"
-        y="0"
-        width="134"
-        height="134"
-        filterUnits="userSpaceOnUse"
-        color-interpolation-filters="sRGB"
-      >
-        <feFlood flood-opacity="0" result="BackgroundImageFix" />
-        <feColorMatrix
-          in="SourceAlpha"
-          type="matrix"
-          values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
-          result="hardAlpha"
-        />
-        <feMorphology
-          radius="8"
-          operator="dilate"
-          in="SourceAlpha"
-          result="effect1_dropShadow_3842_2336"
-        />
-        <feOffset dy="8" />
-        <feGaussianBlur stdDeviation="14" />
-        <feComposite in2="hardAlpha" operator="out" />
-        <feColorMatrix
-          type="matrix"
-          values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.12 0"
-        />
-        <feBlend
-          mode="normal"
-          in2="BackgroundImageFix"
-          result="effect1_dropShadow_3842_2336"
-        />
-        <feBlend
-          mode="normal"
-          in="SourceGraphic"
-          in2="effect1_dropShadow_3842_2336"
-          result="shape"
-        />
-      </filter>
-    </defs>
+    <path
+      fill-rule="evenodd"
+      clip-rule="evenodd"
+      d="M20.7072 7.48661C20.3162 7.09561 19.6842 7.09561 19.2932 7.48661L12.1952 14.5846L8.99925 11.3896C8.60825 10.9996 7.97625 10.9996 7.58525 11.3896C7.19425 11.7806 7.19425 12.4136 7.58525 12.8036L8.44025 13.6586L7.51225 14.5866L4.70725 11.7816C4.31625 11.3906 3.68425 11.3906 3.29325 11.7816C2.90225 12.1726 2.90225 12.8046 3.29325 13.1956L6.47125 16.3736C6.74925 16.6536 7.11925 16.8076 7.51225 16.8076C7.90625 16.8076 8.27525 16.6536 8.55025 16.3766L9.85425 15.0726L11.1572 16.3756C11.4352 16.6526 11.8042 16.8046 12.1952 16.8046C12.5882 16.8046 12.9572 16.6516 13.2332 16.3746L20.7072 8.90061C21.0982 8.50961 21.0982 7.87761 20.7072 7.48661Z"
+      fill="white"
+    />
+    <path
+      fill-rule="evenodd"
+      clip-rule="evenodd"
+      d="M12.1956 12.3178C12.4516 12.3178 12.7076 12.2198 12.9026 12.0248L16.0246 8.90281C16.4156 8.51181 16.4156 7.87981 16.0246 7.48881C15.6336 7.09781 15.0016 7.09781 14.6106 7.48881L11.4886 10.6108C11.0976 11.0018 11.0976 11.6338 11.4886 12.0248C11.6836 12.2198 11.9396 12.3178 12.1956 12.3178Z"
+      fill="white"
+    />
   </svg>
+);
+
+const Success = () => (
+  <div className="size-[54px] rounded-full bg-[#47CD89] border-[4px] border-white shadow-[0_8px_28px_8px_#0000001E] flex items-center justify-center">
+    <DoubleCheckIcon />
+  </div>
 );
 
 export default Success;
